@@ -21,7 +21,7 @@ chrome.storage.local.get('keywords', function (result) {
 				var n1 = res[0].match(/\d+/);
 				var n2 = keyword.match(/\d+/);
 				console.log(n1+" "+n2);
-				if( n1.length > 0 && n2.length > 0)
+				if( n1 > 0 && n2 > 0)
 				{
 					if(Number(n2[0]) <= Number(n1[0]))
 						flag = true;
