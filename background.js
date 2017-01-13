@@ -1,7 +1,12 @@
 chrome.runtime.onMessage.addListener(function(message, sender) {
 	//console.log('caught in background ');
 	chrome.browserAction.setIcon({path:"icon.png"}); 
+	if(message === "0")
+		chrome.browserAction.setBadgeBackgroundColor({color: "#0000BB"});
+	else
+		chrome.browserAction.setBadgeBackgroundColor({color: "#BB0000"});
     chrome.browserAction.setBadgeText({text: message});
+	
 });
 
 chrome.tabs.onHighlighted.addListener(function(){
