@@ -2,14 +2,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	var list = document.getElementById("list");
 	
+	
 	chrome.storage.local.get('keywords', function (result) {
 		console.log(result.keywords);
 		var keywordsArray = result.keywords;
 		for(var index in keywordsArray)
 		{
-			var entry = document.createElement('li');
-			entry.appendChild(document.createTextNode(keywordsArray[index]));
-			list.appendChild(entry);
+			list.appendChild(getListItem(keywordsArray[index]));
 		}	
 	});
 	
@@ -21,9 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			var keywordsArray = [];
 			if(result.keywords)
 				keywordsArray = result.keywords;
-			var entry = document.createElement('li');
-			entry.appendChild(document.createTextNode(text));
-			list.appendChild(entry);
+			
+			list.appendChild(getListItem(text));
 			keywordsArray.push(text);
 			chrome.storage.local.set({keywords: keywordsArray}, function(){
 				console.log('saved');
@@ -32,6 +30,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	}, false);
 	
+	$("#list").on("click", "button.delete", function(){
+		$(this).closest("li").remove();
+	});
+
 	var deleteAllButton = document.getElementById('deleteAll');
 	deleteAllButton.addEventListener('click', function() {
 		chrome.storage.local.clear(function() {
@@ -48,4 +50,26 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	});
+	
+	function getListItem(textItem)
+	{
+		var entry = document.createElement('li');
+		entry.className = "list-group-item";
+		
+		var entryDiv = document.createElement('div');
+		entryDiv.className = 'row clearfix';
+		
+		var textDiv = document.createElement('div');
+		textDiv.className = 'col-xs-9';
+		textDiv.innerHTML = textItem;
+		entryDiv.appendChild(textDiv);
+		
+		var deleteButtonDiv = document.createElement('div');
+		deleteButtonDiv.className = 'btn-group pull-right col-xs-3';
+		deleteButtonDiv.innerHTML = "<button class='delete btn btn-warning'><span class='glyphicon glyphicon-remove'></span></button>";
+		entryDiv.appendChild(deleteButtonDiv);
+
+		entry.appendChild(entryDiv);
+		return entry;
+	}
 }, false);

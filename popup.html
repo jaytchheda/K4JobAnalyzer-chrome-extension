@@ -1,17 +1,36 @@
-<!doctype html>
 <html>
   <head>
     <title>K4 Job Analyzer</title>
+	<style>
+		body {
+			min-width:300px;
+		}
+	</style>
     <script src="popup.js"></script>
+	<script src="jquery.js"></script>
+	<script src="bootstrap.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
   </head>
   <body>
-    <h1>K4 Job Analyzer</h1>
-	<input type="text" id="keyword"/>
-    <input type="button" id="add" value="Add" /> 
-	<br>
-	<ul id='list'></ul>
-	<br>
-	<input type="button" id="deleteAll" value="Delete All" /> 
-	
+	<div class="container">
+		<h1>K4 Job Analyzer</h1>
+		<form class="horizontal">
+			<div class="input-group">
+				<input type="text" id="keyword" class="form-control"/>
+				<span class="input-group-btn">
+					<button type="button" id="add" class="btn btn-primary"/> Add </button>
+				</span>
+			</div>
+			<br>
+			<ul class="list-group" id='list'></ul>
+			
+			<button type="button" class="btn btn-danger" id="deleteAll">Delete All</button> 
+		</form>
+		
+		
+	</div>
+    
   </body>
 </html>
