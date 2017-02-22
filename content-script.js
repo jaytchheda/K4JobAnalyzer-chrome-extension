@@ -11,34 +11,22 @@ chrome.runtime.onMessage.addListener(function(message, sender) {
 		for(var index in keywordsArray)
 		{
 			var keyword = keywordsArray[index];
+			var matches = [];
 			if(text)
 			{
+				var re = (new RegExp(escapeRegExp(keyword), "gi"));
+				while ((match = re.exec(text)) != null) {
+					matches.push(match);
+				}
+
+				count += matches.length;
 				
-				var res = text.match(new RegExp(escapeRegExp(keyword), "i"));
-				console.log(escapeRegExp(keyword));
-				if(res)
+				for(var i = matches.length-1; i > 0; i--)
 				{
-					var flag = false;
-					
-					var n1 = res[0].match(/\d+/);
-					var n2 = keyword.match(/\d+/);
-					console.log(n1+" "+n2);
-					if( n1 > 0 && n2 > 0)
-					{
-						if(Number(n2[0]) <= Number(n1[0]))
-							flag = true;
-					}
-					else
-						flag = true;
-					if(flag)
-					{
-						count += res.length;
-						console.log(res[0]);
-						var span = "<span style='background-color:#BB0000 !important'>"+res[0]+"</span>";
-						text = text.replace(res[0], span);
-						document.body.innerHTML = text;
-					}	
+					var span = "<span style='background-color:#008800 !important'>"+matches[i][0]+"</span>";
+					text = text.replaceAt(matches[i].index, matches[i][0], span);								
 				}	
+				document.body.innerHTML = text;
 			}
 		}
 
@@ -54,5 +42,8 @@ function escapeRegExp(str) {
   return str.replace(/\s+/g, "\\s+");
 }
 	
+String.prototype.replaceAt=function(index, source, destination) {
+    return this.substr(0, index) + destination + this.substr(index+source.length);
+}
 	
 
